@@ -27,8 +27,6 @@ ini_set("display_errors", 1);
                     "mobile"=>$row['mobile'],
                     "status"=>$row['status'],
                     "created_at"=>date("Y-m-d",strtotime($row['created_at']))
-
-
                 ));
             }
             http_response_code(200);

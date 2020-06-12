@@ -42,5 +42,17 @@
 
             return $std_obj->get_result();
         }
+        // read single student data
+        public function get_single_student(){
+            $sql_query="SELECT * from ".$this->table_name." WHERE id = ?";
+
+            // prepare stataement
+            $obj=$this->conn->prepare($sql_query); //prepare statement;
+            $obj->bind_param("i", $this->id); //bind parameters with te hprepared stsatement
+            $obj->execute();
+            $data=$obj->get_result();
+            return $data->fetch_assoc();
+            
+        }
     }
 ?>
