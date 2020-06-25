@@ -1,9 +1,10 @@
 <?php
     class Student{
+
         public $name;
         public $email;
         public $mobile;
-
+        public $id;
         private $conn;
         private $table_name;
 
@@ -54,5 +55,37 @@
             return $data->fetch_assoc();
             
         }
+        public function update_student(){
+            $update_query = "UPDATE SET name =?, email=?, mobile=? WHERE id=?";
+            $query_object=$this->conn->prepare($update_query);
+            // sanitizing inputs
+            $this->name= htmlspecialchars(strip_tags($this->name));
+            $this->email= htmlspecialchars(strip_tags($this->email));
+            $this->mobile= htmlspecialchars(strip_tags($this->mobile));
+            $this->id= htmlspecialchars(strip_tags($this->id));
+            // binding
+            $query_object->bind_param("sssi",$this->name, $this->email, $this->mobile, $this->id);
+            if($query_object->execute()){
+                return true;
+            }
+            return false;
+
+        }
+        public function delete_student(){
+            $delete_query = "DELETE from ".$this->table_name." WHERE id=?";
+            // prepare $query;
+            $delete_obj=$this->conn->prepare($delete_query);
+            // sanitize input
+            $this->id=htmlspecialchars(strip_tags($this->id));
+            // bind our parameters
+            $delete_obj->bind_param("i", $this->id);
+            if($delete_obj->execute()){
+                return true;
+            }
+            else 
+                return false;
+
+        }
+
     }
 ?>
